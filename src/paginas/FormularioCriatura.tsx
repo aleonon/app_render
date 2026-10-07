@@ -5,7 +5,7 @@
  */
 
 import { FormEvent, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { crearCriatura, actualizarCriatura, obtenerCriaturaPorId } from "../api/criaturasApi";
 import { CriaturaFormulario, TIPOS_CRIATURA, ESTADOS_INVESTIGACION } from "../tipos";
 
@@ -78,88 +78,93 @@ export function FormularioCriatura() {
     }
   }
 
-  if (cargando) return <p>Cargando datos de la criatura...</p>;
+  if (cargando) return <p className="py-10 text-center text-stone-500">Cargando datos de la criatura...</p>;
 
   return (
-    <div>
-      <h1>{esEdicion ? "Editar criatura" : "Registrar criatura nueva"}</h1>
+    <section className="mx-auto max-w-3xl">
+      <div className="mb-7">
+        <Link className="text-sm font-bold no-underline" to="/">← Volver a criaturas</Link>
+        <p className="mb-2 mt-6 text-sm font-black uppercase tracking-[0.18em] text-emerald-800">Expediente de campo</p>
+        <h1 className="page-title">{esEdicion ? "Editar criatura" : "Registrar criatura"}</h1>
+        <p className="page-description">Completa los datos para mantener actualizado el archivo de Pawnee.</p>
+      </div>
 
-      {error && <p>Error: {error}</p>}
-
-      <form onSubmit={manejarEnvio}>
-        <p>
-          <label htmlFor="nombre">Nombre: </label>
-          <br />
+      <form className="surface space-y-5" onSubmit={manejarEnvio}>
+        {error && <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800" role="alert">Error: {error}</div>}
+        <div>
+          <label className="field-label" htmlFor="nombre">Nombre</label>
           <input
+            className="input field-control"
             id="nombre"
             type="text"
             value={form.nombre}
             onChange={(e) => setForm({ ...form, nombre: e.target.value })}
+            placeholder="Ej. Criatura del bosque"
+            required
           />
-        </p>
+        </div>
 
-        <p>
-          <label htmlFor="tipo">Tipo: </label>
-          <br />
-          <select
-            id="tipo"
-            value={form.tipo}
-            onChange={(e) => setForm({ ...form, tipo: e.target.value as CriaturaFormulario["tipo"] })}
-          >
-            {TIPOS_CRIATURA.map((tipo) => (
-              <option key={tipo} value={tipo}>
-                {tipo}
-              </option>
-            ))}
-          </select>
-        </p>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className="field-label" htmlFor="tipo">Tipo</label>
+            <div className="select is-fullwidth">
+              <select
+                className="field-control"
+                id="tipo"
+                value={form.tipo}
+                onChange={(e) => setForm({ ...form, tipo: e.target.value as CriaturaFormulario["tipo"] })}
+              >
+                {TIPOS_CRIATURA.map((tipo) => <option key={tipo} value={tipo}>{tipo}</option>)}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="field-label" htmlFor="estado">Estado de investigación</label>
+            <div className="select is-fullwidth">
+              <select
+                className="field-control"
+                id="estado"
+                value={form.estado}
+                onChange={(e) => setForm({ ...form, estado: e.target.value as CriaturaFormulario["estado"] })}
+              >
+                {ESTADOS_INVESTIGACION.map((estado) => <option key={estado} value={estado}>{estado}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>
 
-        <p>
-          <label htmlFor="habilidades">Habilidades (separadas por comas): </label>
-          <br />
+        <div>
+          <label className="field-label" htmlFor="habilidades">Habilidades</label>
           <input
+            className="input field-control"
             id="habilidades"
             type="text"
             value={habilidadesTexto}
             onChange={(e) => setHabilidadesTexto(e.target.value)}
+            placeholder="Separadas por comas"
           />
-        </p>
+        </div>
 
-        <p>
-          <label htmlFor="nivelPeligro">Nivel de peligro (1-10): </label>
-          <br />
+        <div>
+          <label className="field-label" htmlFor="nivelPeligro">Nivel de peligro: {form.nivelPeligro} / 10</label>
           <input
+            className="w-full accent-emerald-800"
             id="nivelPeligro"
-            type="number"
+            type="range"
             min={1}
             max={10}
             value={form.nivelPeligro}
             onChange={(e) => setForm({ ...form, nivelPeligro: Number(e.target.value) })}
           />
-        </p>
+        </div>
 
-        <p>
-          <label htmlFor="estado">Estado: </label>
-          <br />
-          <select
-            id="estado"
-            value={form.estado}
-            onChange={(e) => setForm({ ...form, estado: e.target.value as CriaturaFormulario["estado"] })}
-          >
-            {ESTADOS_INVESTIGACION.map((estado) => (
-              <option key={estado} value={estado}>
-                {estado}
-              </option>
-            ))}
-          </select>
-        </p>
-
-        <p>
-          <button type="submit" disabled={guardando}>
+        <div className="flex flex-col-reverse gap-3 border-t border-stone-100 pt-5 sm:flex-row sm:justify-end">
+          <Link className="button action-secondary no-underline" to="/">Cancelar</Link>
+          <button className="button action-primary" type="submit" disabled={guardando}>
             {guardando ? "Guardando..." : esEdicion ? "Guardar cambios" : "Crear criatura"}
           </button>
-        </p>
+        </div>
       </form>
-    </div>
+    </section>
   );
 }
