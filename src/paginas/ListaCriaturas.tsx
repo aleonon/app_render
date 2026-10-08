@@ -46,6 +46,9 @@ export function ListaCriaturas() {
         </div>
         <div className="archive-hero__art">
           <span className="archive-hero__art-label">ARCHIVE / 001</span>
+          <svg className="archive-hero__shape" viewBox="0 0 600 700" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M600 0H228C173 86 222 139 171 213S59 315 109 397s108 87 76 174S107 650 0 700h600Z" fill="currentColor" />
+          </svg>
           <MonsterImage archiveNumber="SPECIMEN_001" variant="hero" />
           <span className="archive-hero__art-index">01—24</span>
         </div>
@@ -68,6 +71,14 @@ export function ListaCriaturas() {
           <span className="archive-fact__note">ESCALA DE RIESGO</span>
         </div>
       </section>
+
+      <div className="archive-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+          <path d="M0 30C170 82 260 4 442 30s294 70 461 26 339-68 537-20v54H0Z" />
+        </svg>
+        <span>OBSERVAR · CLASIFICAR · COMPRENDER</span>
+        <b>✳</b>
+      </div>
 
       <section className="archive-catalog" id="catalogo">
         <div className="catalog-heading">
