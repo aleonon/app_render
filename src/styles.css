@@ -1044,7 +1044,12 @@
 
 .site-main .page-title,
 .site-main h1.page-title {
+  display: table;
+  max-width: 100%;
+  padding: 0.12em 0.2em 0.08em;
+  border-radius: var(--radius-sm);
   color: var(--cream);
+  background: var(--terracotta);
   font-family: Impact, "Arial Narrow", sans-serif;
   font-size: clamp(2.5rem, 6vw, 5rem);
   font-weight: 500;
